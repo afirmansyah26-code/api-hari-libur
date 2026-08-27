@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "build": "tsc",
+    "build": "esbuild api/index.ts --bundle --platform=node --format=esm --target=node20 --outfile=api/index.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.9",
+    "esbuild": "^0.28.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "vitest": "^3.0.7"
