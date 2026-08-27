@@ -18,7 +18,7 @@ following the instructions on the official Deno website:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/radyakaze/api-hari-libur.git
+   git clone https://github.com/afirmansyah26-code/api-hari-libur.git
    ```
 
 2. Change into the project directory:

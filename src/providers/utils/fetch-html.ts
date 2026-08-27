@@ -6,8 +6,8 @@ export interface FetchHtmlOptions {
   fetchFn?: typeof fetch;
 }
 
-const DEFAULT_USER_AGENT =
-  'Mozilla/5.0 (compatible; ApiHariLibur/1.0; +https://github.com/radyakaze/api-hari-libur)';
+export const DEFAULT_USER_AGENT =
+  'Mozilla/5.0 (compatible; ApiHariLibur/1.0; +https://github.com/afirmansyah26-code/api-hari-libur)';
 const DEFAULT_TIMEOUT_MS = 5000;
 
 /**
