@@ -5,8 +5,13 @@ export * from './utils/date-validator';
 export * from './utils/fetch-html';
 
 import type { HolidayProvider } from './holiday-provider';
+import { HusniadilProvider } from './husniadil.provider';
+import { TanggalansProvider } from './tanggalans.provider';
 
 /**
- * Provider registry contract.
+ * Default provider registry containing active holiday sources.
  */
-export const holidayProviders: HolidayProvider[] = [];
+export const holidayProviders: HolidayProvider[] = [
+  new TanggalansProvider(),
+  new HusniadilProvider(),
+];

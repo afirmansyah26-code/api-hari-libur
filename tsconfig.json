@@ -12,6 +12,8 @@
   "include": [
     "src/domain/**/*",
     "src/providers/**/*",
+    "src/services/**/*",
+    "src/cache/**/*",
     "src/constants/**/*",
     "src/schema/**/*",
     "tests/**/*"
