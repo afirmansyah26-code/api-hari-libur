@@ -52828,10 +52828,10 @@ function createApp(options) {
 }
 var app = createApp();
 
-// api/index.ts
-var index_default = handle(app);
+// src/entry-vercel.ts
+var entry_vercel_default = handle(app);
 export {
-  index_default as default
+  entry_vercel_default as default
 };
 /*! Bundled license information:
 

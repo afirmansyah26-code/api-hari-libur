@@ -2,12 +2,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { EventEmitter } from 'events';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import handler from '../api/index';
+import handler from '../src/entry-vercel';
 import { app } from '../src/app';
 
 const FIXTURE_PATH = path.join(__dirname, 'fixtures', 'tanggalans', '2026.html');
 
-describe('Vercel Serverless Entry Point (api/index.ts)', () => {
+describe('Vercel Serverless Entry Point (src/entry-vercel.ts)', () => {
   beforeEach(() => {
     const fixtureHtml = fs.readFileSync(FIXTURE_PATH, 'utf8');
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(
