@@ -8,6 +8,7 @@ import { holidayProviders } from './providers';
 import { dateSchema } from './schema/date_schema';
 import { HolidayAggregatorService } from './services/holiday-aggregator.service';
 import { getJakartaDate, getJakartaTomorrow } from './utils/timezone';
+import { LANDING_PAGE_HTML } from './landing-html';
 
 export interface AppOptions {
   aggregator?: HolidayAggregatorService;
@@ -66,6 +67,14 @@ export function createApp(options?: AppOptions): Hono {
   });
 
   // 3. Routes
+  app.get('/', (c: Context) => {
+    return c.html(LANDING_PAGE_HTML);
+  });
+
+  app.get('/index.html', (c: Context) => {
+    return c.html(LANDING_PAGE_HTML);
+  });
+
   app.get('/api', zValidator('query', dateSchema), async (c: Context) => {
     const yearQuery = c.req.query('year');
     const monthQuery = c.req.query('month');

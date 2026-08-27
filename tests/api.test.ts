@@ -45,6 +45,22 @@ describe('API Endpoints - Integration & Backward Compatibility', () => {
     nowProvider: () => new Date('2026-01-01T07:00:00+07:00'),
   });
 
+  describe('GET / and GET /index.html (Landing Page)', () => {
+    it('should return HTML landing page on root GET / with status 200', async () => {
+      const res = await app.request('/');
+      expect(res.status).toBe(200);
+      expect(res.headers.get('content-type')).toContain('text/html');
+      const text = await res.text();
+      expect(text).toContain('API Hari Libur');
+    });
+
+    it('should return HTML landing page on GET /index.html with status 200', async () => {
+      const res = await app.request('/index.html');
+      expect(res.status).toBe(200);
+      expect(res.headers.get('content-type')).toContain('text/html');
+    });
+  });
+
   describe('GET /api', () => {
     it('should return public holiday array for default current year', async () => {
       const res = await app.request('/api');
