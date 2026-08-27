@@ -70,7 +70,7 @@ export function createApp(options?: AppOptions): Hono {
 
   // 3. Routes
   app.get('/', (c: Context) => {
-    return c.html(LANDING_PAGE_HTML);
+    return c.redirect('/index.html', 302);
   });
 
   app.get('/index.html', (c: Context) => {

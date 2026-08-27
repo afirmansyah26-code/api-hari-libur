@@ -46,18 +46,18 @@ describe('API Endpoints - Integration & Backward Compatibility', () => {
   });
 
   describe('GET / and GET /index.html (Landing Page)', () => {
-    it('should return HTML landing page on root GET / with status 200', async () => {
+    it('should redirect root GET / to /index.html with status 302', async () => {
       const res = await app.request('/');
-      expect(res.status).toBe(200);
-      expect(res.headers.get('content-type')).toContain('text/html');
-      const text = await res.text();
-      expect(text).toContain('API Hari Libur');
+      expect(res.status).toBe(302);
+      expect(res.headers.get('location')).toBe('/index.html');
     });
 
     it('should return HTML landing page on GET /index.html with status 200', async () => {
       const res = await app.request('/index.html');
       expect(res.status).toBe(200);
       expect(res.headers.get('content-type')).toContain('text/html');
+      const text = await res.text();
+      expect(text).toContain('API Hari Libur');
     });
   });
 
