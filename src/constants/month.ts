@@ -12,3 +12,19 @@ export const MONTH_NAME = {
   'november': '11',
   'desember': '12',
 } as const
+
+export const MONTH_SHORT_NAME = {
+  'jan': '01',
+  'feb': '02',
+  'mar': '03',
+  'apr': '04',
+  'mei': '05',
+  'jun': '06',
+  'jul': '07',
+  'agu': '08',
+  'ags': '08',
+  'sep': '09',
+  'okt': '10',
+  'nov': '11',
+  'des': '12',
+} as const
