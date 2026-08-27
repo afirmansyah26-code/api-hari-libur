@@ -1,56 +1,120 @@
-# API Hari Libur Indonesia
+# 🇮🇩 API Hari Libur Indonesia
 
-This repository contains a Deno-based API application that provides information
-about public holidays in Indonesia. The holiday data is sourced from
-[tanggalans.com](https://www.tanggalans.com/), offering up-to-date and accurate
-information.
+API gratis dan cepat untuk mendapatkan data hari libur nasional serta cuti bersama di Indonesia. Dibangun menggunakan **Node.js**, **TypeScript**, **Hono**, dan arsitektur **Multi-Source Aggregator** (bersumber dari [tanggalans.com](https://www.tanggalans.com/) & [husniadil.com](https://husniadil.com/)), siap dideploy ke **Vercel Serverless Functions**.
 
-## Usage
+---
 
-### Prerequisites
+## 🚀 Fitur Utama
 
-Ensure that you have Deno installed on your machine. You can install Deno by
-following the instructions on the official Deno website:
-[Deno Installation](https://deno.land/#installation).
+- ⚡ **Super Cepat & Ringan:** Ditenagai oleh Hono framework dengan in-memory cache dan Vercel Edge CDN headers (`Cache-Control`).
+- 🔄 **Multi-Source Scraper:** Mengagregasi data dari berbagai sumber tepercaya secara paralel dengan penanganan fallback otomatis.
+- 🎯 **Akurat & Tervalidasi:** Validasi input ketat dengan Zod dan penyesuaian zona waktu `Asia/Jakarta` (WIB, UTC+7).
+- 🧩 **100% Backward Compatible:** Mempertahankan kontrak API lama yang stabil dan ramah integrasi.
+- ☁️ **Vercel Serverless Ready:** Dilengkapi adapter serverless dan antarmuka web dokumentasi statis bawaan.
 
-### Getting Started
+---
 
-1. Clone the repository:
+## 📋 Endpoints
 
+| Endpoint | Method | Deskripsi |
+| :--- | :---: | :--- |
+| `/api` | `GET` | Daftar hari libur pada tahun berjalan (WIB) |
+| `/api?year=2026` | `GET` | Daftar hari libur pada tahun tertentu (2011 – tahun depan) |
+| `/api?year=2026&month=1` | `GET` | Daftar hari libur pada bulan tertentu |
+| `/api?year=2026&month=1&day=1` | `GET` | Detail status libur pada tanggal tertentu |
+| `/api/today` | `GET` | Status dan daftar hari libur hari ini (WIB) |
+| `/api/tomorrow` | `GET` | Status dan daftar hari libur besok (WIB) |
+
+### Contoh Respons
+
+#### 1. List Hari Libur (`GET /api?year=2026&month=1`)
+```json
+[
+  {
+    "name": "Tahun Baru 2026 Masehi",
+    "date": "2026-01-01",
+    "is_national_holiday": true
+  },
+  {
+    "name": "Isra Mi'raj Nabi Muhammad SAW",
+    "date": "2026-01-16",
+    "is_national_holiday": true
+  }
+]
+```
+
+#### 2. Detail Tanggal (`GET /api/today` atau `GET /api?year=2026&month=1&day=1`)
+```json
+{
+  "date": "2026-01-01",
+  "is_holiday": true,
+  "is_national_holiday": true,
+  "holiday_list": [
+    "Tahun Baru 2026 Masehi"
+  ]
+}
+```
+
+---
+
+## 💻 Panduan Penggunaan Lokal
+
+### Prasyarat
+- [Node.js](https://nodejs.org/) (versi 18 ke atas disarankan)
+- npm / pnpm / yarn
+
+### Langkah Instalasi
+
+1. **Clone repository:**
    ```bash
    git clone https://github.com/afirmansyah26-code/api-hari-libur.git
-   ```
-
-2. Change into the project directory:
-
-   ```bash
    cd api-hari-libur
    ```
 
-3. Run the application:
-
+2. **Install dependensi:**
    ```bash
-   deno task dev
+   npm install
    ```
 
-   This command will start the Deno application, and the API will be accessible
-   at `http://localhost:8000`.
+3. **Jalankan development server:**
+   ```bash
+   npm run dev
+   ```
+   Aplikasi dan dokumentasi interaktif akan berjalan di `http://localhost:8000`.
 
-### API Demo
+---
 
-You can also explore a live demo of the API at
-[libur.deno.dev](https://libur.deno.dev).
+## 🧪 Testing & Build
 
-## License
+```bash
+# Menjalankan unit & regression test suite (Vitest)
+npm test
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
-for details.
+# Menjalankan TypeScript typecheck
+npm run typecheck
 
-## Acknowledgments
+# Build TypeScript untuk deployment
+npm run build
+```
 
-- Forked from original project by [radyakaze/api-hari-libur](https://github.com/radyakaze/api-hari-libur).
-- Holiday data sourced from [tanggalans.com](https://www.tanggalans.com/) and [husniadil.com](https://husniadil.com/).
+---
 
-Feel free to contribute to this project or use it in your applications! If you
-encounter any issues or have suggestions for improvement, please open an issue
-on GitHub.
+## ☁️ Deployment ke Vercel
+
+Proyek ini sudah dilengkapi file konfigurasi [vercel.json](vercel.json) dan entry point [api/index.ts](api/index.ts).
+
+1. Hubungkan repository GitHub ini ke akun **Vercel** Anda.
+2. Vercel akan secara otomatis mendeteksi konfigurasi dan melakukan build & deploy setiap kali ada `git push` ke branch `main`.
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
+
+---
+
+## 🙏 Acknowledgments & Kredit
+
+- Proyek ini difork dan dikembangkan dari repositori asli oleh [radyakaze/api-hari-libur](https://github.com/radyakaze/api-hari-libur).
+- Data hari libur bersumber dari [tanggalans.com](https://www.tanggalans.com/) dan [husniadil.com](https://husniadil.com/).
