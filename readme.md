@@ -48,9 +48,8 @@ for details.
 
 ## Acknowledgments
 
-- The holiday data is sourced from [tanggalans.com](https://www.tanggalans.com/).
-- Special thanks to the Deno community for providing a robust and secure
-  runtime.
+- Forked from original project by [radyakaze/api-hari-libur](https://github.com/radyakaze/api-hari-libur).
+- Holiday data sourced from [tanggalans.com](https://www.tanggalans.com/) and [husniadil.com](https://husniadil.com/).
 
 Feel free to contribute to this project or use it in your applications! If you
 encounter any issues or have suggestions for improvement, please open an issue
