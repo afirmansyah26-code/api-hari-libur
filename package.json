@@ -1,0 +1,25 @@
+{
+  "name": "api-hari-libur",
+  "version": "1.0.0",
+  "description": "API Hari Libur Nasional Indonesia",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.4.3",
+    "cheerio": "^1.0.0",
+    "hono": "^4.7.4",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
+  }
+}
