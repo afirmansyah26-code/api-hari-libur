@@ -34,10 +34,14 @@ describe('Vercel Serverless Entry Point (src/entry-vercel.ts)', () => {
     req.rawHeaders = ['host', 'localhost:8000'];
 
     const chunks: Buffer[] = [];
-    let statusCode = 0;
+    const headers: Record<string, string> = {};
     const res = new EventEmitter() as any;
+    res.statusCode = 200;
+    res.setHeader = (key: string, val: string) => {
+      headers[key] = val;
+    };
     res.writeHead = (status: number) => {
-      statusCode = status;
+      res.statusCode = status;
     };
     res.write = (chunk: any) => {
       if (chunk) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
@@ -48,7 +52,7 @@ describe('Vercel Serverless Entry Point (src/entry-vercel.ts)', () => {
     };
 
     await handler(req, res);
-    expect(statusCode).toBe(200);
+    expect(res.statusCode).toBe(200);
     const bodyStr = Buffer.concat(chunks).toString('utf8');
     const json = JSON.parse(bodyStr);
     expect(json.date).toBe('2026-01-01');
