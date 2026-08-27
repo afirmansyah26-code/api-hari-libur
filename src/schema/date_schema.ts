@@ -1,62 +1,68 @@
-import { z } from 'zod'
+import { z } from 'zod';
+import { getJakartaDate } from '../utils/timezone';
 
-const maxYear = new Date().getFullYear() + 1
-
-export const dateSchema = z.object({
-  year: z.coerce
-    .number()
-    .min(2011, {
-      message: 'Minimum year is 2011',
-    })
-    .max(maxYear, {
-      message: `Maximum year is ${maxYear}`,
-    })
-    .optional(),
-  month: z
-    .coerce
-    .number()
-    .min(1, {
-      message: 'Minimum month is 1',
-    })
-    .max(12, {
-      message: 'Maximum month is 12',
-    })
-    .optional(),
-  day: z
-    .coerce
-    .number()
-    .min(1, {
-      message: 'Minimum day is 1',
-    })
-    .max(31, {
-      message: 'Maximum day is 31',
-    })
-    .optional(),
-})
+export const dateSchema = z
+  .object({
+    year: z.coerce
+      .number()
+      .min(2011, {
+        message: 'Minimum year is 2011',
+      })
+      .refine(
+        (y) => {
+          const maxYear = getJakartaDate().year + 1;
+          return y <= maxYear;
+        },
+        () => ({
+          message: `Maximum year is ${getJakartaDate().year + 1}`,
+        })
+      )
+      .optional(),
+    month: z.coerce
+      .number()
+      .min(1, {
+        message: 'Minimum month is 1',
+      })
+      .max(12, {
+        message: 'Maximum month is 12',
+      })
+      .optional(),
+    day: z.coerce
+      .number()
+      .min(1, {
+        message: 'Minimum day is 1',
+      })
+      .max(31, {
+        message: 'Maximum day is 31',
+      })
+      .optional(),
+  })
   .superRefine(({ year, month, day }, ctx) => {
-    if (!year) {
-      year = new Date().getFullYear()
-    }
+    const targetYear = year ?? getJakartaDate().year;
 
     if (day) {
       if (!month) {
         ctx.addIssue({
           path: ['month'],
           code: 'custom',
-          message: 'Month is required when specifying day'
-        })
+          message: 'Month is required when specifying day',
+        });
 
-        return z.NEVER
+        return z.NEVER;
       }
 
-      const parsedDate = new Date(year, month - 1, day)
+      const parsedDate = new Date(targetYear, month - 1, day);
 
-      if (parsedDate.getFullYear() !== year || parsedDate.getMonth() !== month - 1 || parsedDate.getDate() !== day) {
+      if (
+        parsedDate.getFullYear() !== targetYear ||
+        parsedDate.getMonth() !== month - 1 ||
+        parsedDate.getDate() !== day
+      ) {
         ctx.addIssue({
           path: ['day'],
           code: 'custom',
-          message: 'The provided date is not valid'
-        })
+          message: 'The provided date is not valid',
+        });
       }
     }
-  })
+  });
