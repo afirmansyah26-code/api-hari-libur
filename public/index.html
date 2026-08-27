@@ -20,18 +20,22 @@
         }
 
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-card: #ffffff;
-            --red-indonesia: #e74c3c;
+            --bg-primary: #0a0d14;
+            --bg-secondary: #101623;
+            --bg-card: #151d2e;
+            --bg-card-hover: #1c273c;
+            --red-indonesia: #ff4757;
+            --red-glow: rgba(255, 71, 87, 0.35);
             --white-indonesia: #ffffff;
-            --accent-dark: #2c3e50;
-            --accent-blue: #3498db;
-            --text-primary: #2c3e50;
-            --text-secondary: #5a6c7d;
-            --text-muted: #95a5a6;
-            --border: #e1e8ed;
-            --shadow: rgba(0, 0, 0, 0.08);
+            --accent-dark: #1e293b;
+            --accent-blue: #60a5fa;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #1e293b;
+            --border-hover: #334155;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --code-bg: #090d16;
         }
 
         body {
@@ -42,7 +46,7 @@
             overflow-x: hidden;
         }
 
-        /* Animated Background with Indonesian Flag */
+        /* Animated Ambient Dark Background with Indonesian Flag Accent */
         .bg-decoration {
             position: fixed;
             top: 0;
@@ -52,23 +56,23 @@
             pointer-events: none;
             z-index: 0;
             overflow: hidden;
-            background: linear-gradient(to bottom,
-                var(--red-indonesia) 0%,
-                var(--red-indonesia) 40%,
-                var(--white-indonesia) 40%,
-                var(--white-indonesia) 100%);
-            opacity: 0.03;
+            background:
+                radial-gradient(circle at 15% 15%, rgba(255, 71, 87, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(96, 165, 250, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 71, 87, 0.03) 0%, transparent 60%),
+                #0a0d14;
         }
 
         .bg-decoration::before {
             content: '🇮🇩';
             position: absolute;
-            font-size: 300px;
+            font-size: 320px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            opacity: 0.02;
+            opacity: 0.025;
             animation: float 30s ease-in-out infinite;
+            filter: drop-shadow(0 0 50px rgba(255, 71, 87, 0.3));
         }
 
         .bg-decoration::after {
@@ -83,8 +87,8 @@
                     45deg,
                     transparent,
                     transparent 50px,
-                    rgba(231, 76, 60, 0.02) 50px,
-                    rgba(231, 76, 60, 0.02) 100px
+                    rgba(255, 71, 87, 0.015) 50px,
+                    rgba(255, 71, 87, 0.015) 100px
                 );
         }
 
@@ -375,7 +379,7 @@
             margin: 0;
             white-space: pre-wrap;
             word-break: break-all;
-            color: var(--accent-dark);
+            color: #e2e8f0;
         }
 
         .loading {
@@ -958,10 +962,10 @@
             background: var(--accent-dark);
         }
 
-        .json-key { color: var(--accent-dark); font-weight: 600; }
-        .json-string { color: var(--red-indonesia); }
-        .json-number { color: var(--accent-blue); }
-        .json-boolean { color: #27ae60; }
+        .json-key { color: #93c5fd; font-weight: 600; }
+        .json-string { color: #86efac; }
+        .json-number { color: #fde047; }
+        .json-boolean { color: #f472b6; }
 
         /* Override speed-highlight theme for code blocks */
         .code-block pre {
@@ -973,7 +977,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.85rem;
             background: transparent !important;
-            color: var(--accent-dark);
+            color: #e2e8f0;
             display: block;
             padding: 0;
         }
@@ -986,7 +990,7 @@
         .code-block .shj-syn-oper { color: #56b6c2; }
         .code-block .shj-syn-var { color: #e06c75; }
         .code-block .shj-syn-class { color: #e5c07b; }
-        .code-block .shj-syn-insert { color: var(--accent-dark); background: transparent; }
+        .code-block .shj-syn-insert { color: #e2e8f0; background: transparent; }
     </style>
 </head>
 <body>
@@ -1723,7 +1727,7 @@ fetch(`{{BASE_URL}}/api?year=${year}&month=${month}&day=${day}`)
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                 `;
-                element.style.background = '#e8f5e9';
+                element.style.background = 'rgba(39, 174, 96, 0.25)';
                 element.style.borderColor = '#27ae60';
                 element.title = 'Copied!';
 
