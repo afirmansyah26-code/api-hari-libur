@@ -52075,8 +52075,8 @@ function validateAndFormatDate(year, month, day) {
 }
 
 // src/providers/utils/fetch-html.ts
-var DEFAULT_USER_AGENT = "Mozilla/5.0 (compatible; ApiHariLibur/1.0; +https://github.com/afirmansyah26-code/api-hari-libur)";
-var DEFAULT_TIMEOUT_MS = 5e3;
+var DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+var DEFAULT_TIMEOUT_MS = 1e4;
 async function fetchHtml(providerId, url, options) {
   const timeoutMs = options?.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const userAgent = options?.userAgent ?? DEFAULT_USER_AGENT;
@@ -52088,7 +52088,11 @@ async function fetchHtml(providerId, url, options) {
       signal: controller.signal,
       headers: {
         "User-Agent": userAgent,
-        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none"
       }
     });
     if (!response.ok) {
@@ -54514,6 +54518,7 @@ function createApp(options) {
         err.status
       );
     }
+    console.error("Unhandled app error:", err);
     return c.json(
       {
         message: "Failed to retrieve holiday data."

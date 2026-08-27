@@ -58,6 +58,8 @@ export function createApp(options?: AppOptions): Hono {
       );
     }
 
+    console.error('Unhandled app error:', err);
+
     return c.json(
       {
         message: 'Failed to retrieve holiday data.',

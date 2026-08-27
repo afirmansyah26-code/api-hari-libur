@@ -7,8 +7,8 @@ export interface FetchHtmlOptions {
 }
 
 export const DEFAULT_USER_AGENT =
-  'Mozilla/5.0 (compatible; ApiHariLibur/1.0; +https://github.com/afirmansyah26-code/api-hari-libur)';
-const DEFAULT_TIMEOUT_MS = 5000;
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
+const DEFAULT_TIMEOUT_MS = 10000;
 
 /**
  * Fetches HTML from upstream provider with timeout, user-agent, and error wrapping.
@@ -31,7 +31,11 @@ export async function fetchHtml(
       headers: {
         'User-Agent': userAgent,
         Accept:
-          'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
       },
     });
 
