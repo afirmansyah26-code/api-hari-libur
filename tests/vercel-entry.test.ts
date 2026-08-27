@@ -2,32 +2,20 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { EventEmitter } from 'events';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import handler from '../src/entry-vercel';
+import handler from '../api/index';
 import { app } from '../src/app';
 
 const FIXTURE_PATH = path.join(__dirname, 'fixtures', 'tanggalans', '2026.html');
 
-describe('Vercel Serverless Entry Point (src/entry-vercel.ts)', () => {
+describe('Vercel Edge Entry Point (api/index.ts)', () => {
   beforeEach(() => {
     const fixtureHtml = fs.readFileSync(FIXTURE_PATH, 'utf8');
-    const originalFetch = globalThis.fetch;
-    vi.spyOn(globalThis, 'fetch').mockImplementation((input: any, init?: any) => {
-      const urlStr =
-        typeof input === 'string'
-          ? input
-          : input instanceof URL
-          ? input.href
-          : input.url;
-      if (urlStr.includes('localhost') || urlStr.includes('127.0.0.1')) {
-        return originalFetch(input, init);
-      }
-      return Promise.resolve(
-        new Response(fixtureHtml, {
-          status: 200,
-          headers: { 'Content-Type': 'text/html' },
-        })
-      );
-    });
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(fixtureHtml, {
+        status: 200,
+        headers: { 'Content-Type': 'text/html' },
+      })
+    );
   });
 
   afterEach(() => {
@@ -38,25 +26,14 @@ describe('Vercel Serverless Entry Point (src/entry-vercel.ts)', () => {
     expect(typeof handler).toBe('function');
   });
 
-  it('should handle real Node.js HTTP server requests correctly', async () => {
-    const http = await import('node:http');
-    const server = http.createServer(handler);
-    await new Promise<void>((resolve) => server.listen(0, resolve));
-    const port = (server.address() as any).port;
+  it('should process Web Standard Request and return Web Standard Response', async () => {
+    const webReq = new Request('http://localhost:8000/api?year=2026&month=1&day=1');
+    const response = await handler(webReq);
+    expect(response.status).toBe(200);
 
-    try {
-      const res = await fetch(`http://localhost:${port}/api?year=2026&month=1&day=1`);
-      expect(res.status).toBe(200);
-      const json = await res.json();
-      expect(json.date).toBe('2026-01-01');
-      expect(json.is_holiday).toBe(true);
-
-      const landingRes = await fetch(`http://localhost:${port}/`);
-      expect(landingRes.status).toBe(200);
-      expect(landingRes.headers.get('content-type')).toContain('text/html');
-    } finally {
-      await new Promise<void>((resolve) => server.close(() => resolve()));
-    }
+    const json = await response.json();
+    expect(json.date).toBe('2026-01-01');
+    expect(json.is_holiday).toBe(true);
   });
 
   it('should delegate requests directly to the main Hono application', async () => {
