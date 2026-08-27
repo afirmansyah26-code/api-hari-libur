@@ -26,35 +26,12 @@ describe('Vercel Serverless Entry Point (src/entry-vercel.ts)', () => {
     expect(typeof handler).toBe('function');
   });
 
-  it('should handle Node.js IncomingMessage / ServerResponse cycle without crashing', async () => {
-    const req = new EventEmitter() as any;
-    req.method = 'GET';
-    req.url = '/api?year=2026&month=1&day=1';
-    req.headers = { host: 'localhost:8000' };
-    req.rawHeaders = ['host', 'localhost:8000'];
+  it('should process Web Standard Request and return Web Standard Response', async () => {
+    const webReq = new Request('http://localhost:8000/api?year=2026&month=1&day=1');
+    const response = await handler(webReq);
+    expect(response.status).toBe(200);
 
-    const chunks: Buffer[] = [];
-    const headers: Record<string, string> = {};
-    const res = new EventEmitter() as any;
-    res.statusCode = 200;
-    res.setHeader = (key: string, val: string) => {
-      headers[key] = val;
-    };
-    res.writeHead = (status: number) => {
-      res.statusCode = status;
-    };
-    res.write = (chunk: any) => {
-      if (chunk) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    };
-    res.end = (chunk?: any) => {
-      if (chunk) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-      res.emit('finish');
-    };
-
-    await handler(req, res);
-    expect(res.statusCode).toBe(200);
-    const bodyStr = Buffer.concat(chunks).toString('utf8');
-    const json = JSON.parse(bodyStr);
+    const json = await response.json();
     expect(json.date).toBe('2026-01-01');
     expect(json.is_holiday).toBe(true);
   });
